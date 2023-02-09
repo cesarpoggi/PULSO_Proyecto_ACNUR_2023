@@ -1,7 +1,0 @@
-"0","#######"
-"0","datalist <- kobo_data(datapath = datapath )"
-"0","## Let's extract the analysis plan from the xlsform - or extend the current one"
-"0","dico <- kobo_dico(xlsformpath = xlsformpath)"
-"0","### Uncomment if you want to review"
-"0","# allvar <- as.data.frame(dico[[""variables""]])"
-"0","# plan <- as.data.frame(dico[[""plan""]])"

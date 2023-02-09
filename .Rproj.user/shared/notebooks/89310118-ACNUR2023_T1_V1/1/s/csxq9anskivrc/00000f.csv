@@ -1,6 +1,0 @@
-"0","## Let's extend the xlsform !! Uncomment the below "
-"0","#### you only need to do this once when you start your analysis !!!"
-"0","## Pay attention to the language parameter!"
-"0","kobo_prepare_form(xlsformpath = xlsformpath ,"
-"0","                  xlsformpathout =  here::here(params$datafolder, params$form)  ,"
-"0","                  label_language = params$language ) "

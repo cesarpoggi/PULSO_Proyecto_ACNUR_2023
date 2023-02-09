@@ -1,0 +1,211 @@
+---
+title: "Exploratory Data Analysis Step"
+date: " `r format(Sys.Date(),  '%d %B %Y')`"
+output:
+  unhcrdown::html_page:
+    toc: true
+    toc_depth: 2
+    toc_float: true 
+params:
+  datafolder: "data-raw" ## This is the default folder where to put you data in
+  data: "dataCBI.xlsx" ## Name of the data file
+  form: "form.xlsx" ## name of the xlsform 
+  language: "Spanish (ES)" ## Check what you have in your xlsform - ::english (en) -or ::french (fr) or ::spanish (es)
+  datasource: "PULSO 2023" ## String used in caption for all your charts
+  ridl: "ridlproject" ## Name of the ridl project where you data is documented and archived
+  publish: "no" ## put to "yes" in order to add your report, source and analysis plan as ressource within the same ridl dataset
+  visibility: "public"
+  stage: "exploration_initial" ## you may change this to exploration_advanced if you configuring many 
+---
+
+<!--
+How to: This is a simple exploration notebook for any data collected on kobo -
+1. Create an Rstudio project
+2. Open this Rmd Template
+3. create a new folder named "data-raw" 
+4. get both your form and data from your kobo project and put them within this "data-raw" folder - Note that data shall be saved as csv with "XML Value and header format". use advanced options to set up "Include groups in headers" and use "." as group separator
+5. Replace the correct reference in the params of this notebook nd Knit your notebook 
+
+Note: by default this notebook will take the first label translation (English, Spanish, etc.) by order in your form - if you want to get the results in a different language - just adjust the order within the xlsform - You can also adjust the label directly in your xlsform to regenerate the crunching report 
+-->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      message = FALSE, 
+                      warning = FALSE,
+                      collapse = FALSE,
+                      comment = "#>",
+                      # fig.width = 5.5, fig.height = 4,
+                      fig.retina = 2, 
+                      fig.width = 9,
+                      fig.asp = 0.618,
+                      fig.align = "center",
+                      dev = "ragg_png",
+                      out.width = "90%")
+options(scipen = 999) # turn-off scientific notation like 1e+48
+set.seed(1)
+extrafont::loadfonts(quiet=TRUE)
+library("ggplot2")
+library("unhcrthemes")
+ggplot2::theme_set( unhcrthemes::theme_unhcr(font_size = 16))
+
+library("kobocruncher")
+```
+
+
+```{r param, include=FALSE}
+## Retrieve the path from the report parameters
+datapath <- here::here(params$datafolder, params$data)
+xlsformpath <- here::here(params$datafolder, params$form) 
+
+######################################################
+##  Uncomment the 2 lines below to display the demo ##
+######################################################
+# Add # to comment them after once you have set up your report parameters..
+# datapath <- system.file("data.xlsx", package = "kobocruncher")
+# xlsformpath <-  system.file("sample_xlsform.xlsx", package = "kobocruncher")
+```
+
+# Analysis Plan 
+
+```{r extend_xlsform}
+## Let's extend the xlsform !! Uncomment the below 
+#### you only need to do this once when you start your analysis !!!
+## Pay attention to the language parameter!
+## kobo_prepare_form(xlsformpath = xlsformpath ,
+##                  xlsformpathout =  here::here(params$datafolder, params$form)  ,
+##                  label_language = params$language ) 
+```
+
+
+```{r load_data_get_plan}
+#######
+datalist <- kobo_data(datapath = datapath )
+## Let's extract the analysis plan from the xlsform - or extend the current one
+dico <- kobo_dico(xlsformpath = xlsformpath)
+### Uncomment if you want to review
+# allvar <- as.data.frame(dico[["variables"]])
+# plan <- as.data.frame(dico[["plan"]])
+```
+
+
+```{r clean_data}
+## When iterating during the initial data exploration, you may add here specific cleaning steps 
+```
+
+
+
+```{r Indicator_calculation, message=FALSE, warning=FALSE}
+## When iterating during the initial data exploration, you may create here calculated variables
+# This step is also called : Feature engineering, i.e. the process of creating new features from existing ones.
+# Newly engineered features often generate valuable insights.
+
+## See an example below with minimum info to document
+# indicatoradd <- c(  name =  "HH07_cat",
+#                     label = "Age groups",
+#                     type = "select_one",
+#                     repeatvar = "S1",
+#                     calculation = "cut(datalist[[\"S1\"]]$group_Part1.S1.HH07,
+#                     breaks = c(-1, 4, 17, 59, Inf))"
+# )
+
+#expanded  <- kobo_indicator(datalist = datalist,
+#                    dico = dico,
+              # replace as needed with indicatoradd = indicatoradd
+#                    indicatoradd = NULL ,  
+#                    xlsformpath = xlsformpath,
+#                    xlsformpathout = xlsformpath)
+
+## Replace existing with expanded
+#dico <- expanded[["dico"]]
+#datalist <- expanded[["datalist"]]
+```
+
+
+```{r weight_data}
+## When iterating during the initial data exploration, you may add here specific cleaning steps 
+```
+
+```{r disclosure_risk}
+## In case it set up in your Below is an initial statistical disclosure risk 
+```
+
+# Automatic Exploration
+
+```{r cruncher, results='asis' }
+kobo_cruncher(datalist = datalist,
+              dico = dico,
+              datasource = params$datasource)
+```
+
+
+# Summary Likert Charts
+
+```{r cruncherlikert, results='asis' }
+#kobo_likert(datalist = datalist,
+#              dico = dico,
+#              datasource = params$datasource)
+#
+## add cluster analysis if set up
+## add prediction if set up
+## add add score if set up
+
+```
+
+
+
+
+
+
+## Annex: Crunching step
+
+This data crunching report allows to quickly explore the results of the survey published in [RIDL](`r paste0("https://ridl.unhcr.org/dataset/",params$ridl ) `). It can be regenerated as needed based on the analysis plan you did set up. The objective of this report is to allow to quickly identify potential patterns in your dataset. A quick screening of this initial report should allow to select the most meaningful graphs.
+
+The crunching process produces a lot of visuals. Therefore it is key to carefully select the most relevant visual that will be presented for potential interpretation in the next step. To do so, you simply copy-paste the short syntax in a second notebook to generate as powerpoint presentation. A typical data interpretation session shall not last more than 2hours and include more than 60 visuals to look at in order to keep participants with a good focus level.
+ 
+In order to guide this selection phase, data experts, in collaboration with the data analysis group, can use the following elements:
+ 
+  *  For numeric value, check the frequency distributions of each variable to average, deviation, including outlier and oddities
+ 
+  *  For categorical variables, check for unexpected values: any weird results based on common sense expectations
+ 
+  *  Use correlation analysis to check for potential contradictions in respondents answers to different questions for identified associations (chi-square)
+ 
+  *  Always, Check for missing data (NA) or "%of respondent who answered" that you cannot confidently explain
+ 
+  *  Check unanswered questions, that corresponds to unused skip logic in the questionnaire: For instance, did a person who was never displaced answer displacement-related questions? Were employment-related answers provided for a toddler?
+ 
+When analyzing those representations in a collective setting during data interpretation sessions, you may:  
+ 
+  1.  __Reflect__: question data quality and/or make suggestions to adjust questions, identify additional cleaning steps;   
+
+  2.  __Interpret__: develop qualitative interpretations of data patterns;     
+
+  3.  __Recommend__: suggest recommendations in terms of programmatic adjustment;    
+
+  4.  __Classify__: define level of sensitivity for certain topics if required;     
+
+The report can be regenerated as needed by:  
+
+  *  adjusting the report configuration in the xlsform to break it into report and chapter;   
+
+  *  configuring disaggregation & correlation for each question;   
+
+  *  revising the data cleansing based on the cleaning log;   
+ 
+  *  appending calculated indicators to your data frame to reshape variable - also called feature engineering. 
+
+
+
+
+```{r publication_in_ridl}
+## Time to archive your work once done!!
+# namethisfile = basename(rstudioapi::getSourceEditorContext()$path )  
+# if( params$publish == "yes"){
+#  kobo_ridl(ridl = params$ridl,
+#            datafolder = params$datafolder,
+#            form = params$form,
+#            namethisfile =  namethisfile ,
+#            visibility =  params$visibility,
+#            stage = params$stage) }
+```
