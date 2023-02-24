@@ -55,13 +55,6 @@ library("kobocruncher")
 ```
 
 
-
-
-
-
-
-
-
 ```{r getdata}
 datapath <- here::here(params$datafolder, params$data)
 xlsformpath <- here::here(params$datafolder, params$form) 
@@ -70,9 +63,6 @@ datalist <- kobo_data(datapath = datapath )
 dico <- kobo_dico(xlsformpath = xlsformpath)
 questions <- as.data.frame(dico[1])
 ```
-
-
-
 
 ```{r}
 ## Time to archive your work once done!!
