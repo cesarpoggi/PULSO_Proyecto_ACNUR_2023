@@ -54,14 +54,6 @@ library("kobocruncher")
 
 ```
 
-
-
-
-
-
-
-
-
 ```{r getdata}
 datapath <- here::here(params$datafolder, params$data)
 xlsformpath <- here::here(params$datafolder, params$form) 
@@ -71,8 +63,108 @@ dico <- kobo_dico(xlsformpath = xlsformpath)
 questions <- as.data.frame(dico[1])
 ```
 
+## Datos Generales
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_Demographic.group_nv8at35.sex")
+plot_select_one(datalist = datalist, dico = dico, "group_Demographic.group_nv8at35.age")
+
+# Hombres del hogar y edades
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_0_4_years")
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_5_17_years")
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_18_59_years")
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_60_yrs_male")
+
+#Mujeres del hogar y edades
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_0_4_years")
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_5_17_years")
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_18_59_years")
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_60_yrs")
 
 
+```
+
+
+## Necesidades de Protección
+```{r}
+plot_select_multiple(datalist = datalist, dico = dico, "NEED_PROTEC.sneeds")
+plot_select_one(datalist = datalist, dico = dico, "NEED_PROTEC.discapacidad")
+
+plot_select_one(datalist = datalist, dico = dico, "NEED_PROTEC.needsM")
+plot_select_one_cross(datalist = datalist, dico = dico, "NEED_PROTEC.needsM","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "NEED_PROTEC.needsM","group_Demographic.group_nv8at35.age")
+
+plot_select_multiple(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism1")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism1","group_Demographic.group_nv8at35.sex")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism1","group_Demographic.group_nv8at35.age")
+
+plot_select_multiple(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism2")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism2","group_Demographic.group_nv8at35.sex")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism2","group_Demographic.group_nv8at35.age")
+```
+
+
+##Orientaciones Telefónicas
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "HOT_LINE.conocimiento_linea")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.conocimiento_linea","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.conocimiento_linea","group_Demographic.group_nv8at35.age")
+plot_text(datalist = datalist, dico = dico, "HOT_LINE.conocimiento_other")
+
+plot_select_one(datalist = datalist, dico = dico, "HOT_LINE.atention_line")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.atention_line","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.atention_line","group_Demographic.group_nv8at35.age")
+plot_text(datalist = datalist, dico = dico, "HOT_LINE.line_other")
+
+plot_select_one(datalist = datalist, dico = dico, "HOT_LINE.facilidad_info")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.facilidad_info","group_Demographic.group_nv8at35.sex")
+ plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.facilidad_info","group_Demographic.group_nv8at35.age")
+
+ plot_select_one(datalist = datalist, dico = dico, "HOT_LINE.orientation_cal")
+ plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.orientation_cal","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.orientation_cal","group_Demographic.group_nv8at35.age")
+
+plot_select_one(datalist = datalist, dico = dico, "HOT_LINE.utilidad_hotline")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.utilidad_hotline","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.utilidad_hotline","group_Demographic.group_nv8at35.age")
+
+plot_select_one(datalist = datalist, dico = dico, "HOT_LINE.mejora_hotline")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.mejora_hotline","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "HOT_LINE.mejora_hotline","group_Demographic.group_nv8at35.age")
+plot_text(datalist = datalist, dico = dico, "HOT_LINE.otra_mejorahot")
+```
+
+
+##Mecanismos de Retroalimentación y Quejas
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas")
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas","group_Demographic.group_nv8at35.age")
+
+plot_select_one(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_01")
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_01","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_01","group_Demographic.group_nv8at35.age")
+```
+
+##Medios de Información
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "INFORMATION.communication")
+plot_select_one_cross(datalist = datalist, dico = dico, "INFORMATION.communication","group_Demographic.group_nv8at35.sex")
+plot_select_one_cross(datalist = datalist, dico = dico, "INFORMATION.communication","group_Demographic.group_nv8at35.age")
+
+plot_select_multiple(datalist = datalist, dico = dico, "INFORMATION.mediatopic")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.mediatopic","group_Demographic.group_nv8at35.sex")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.mediatopic","group_Demographic.group_nv8at35.age")
+plot_text(datalist = datalist, dico = dico, "INFORMATION.mediatopicother")
+
+plot_select_multiple(datalist = datalist, dico = dico, "INFORMATION.media")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.media","group_Demographic.group_nv8at35.sex")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.media","group_Demographic.group_nv8at35.age")
+
+plot_select_multiple(datalist = datalist, dico = dico, "INFORMATION.socialnet")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.socialnet","group_Demographic.group_nv8at35.sex")
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.socialnet","group_Demographic.group_nv8at35.age")
+```
 
 ```{r}
 ## Time to archive your work once done!!
