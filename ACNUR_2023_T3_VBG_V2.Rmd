@@ -1,0 +1,216 @@
+---
+title: "Data Dissemination"
+subtitle: "Call to Action & Data Stories"
+date: "`r format(Sys.Date(),  '%d %B %Y')`"
+author:
+  - name: PULSO PUCP
+    affiliation:
+    email: pulsopucp@pucp.edu.pe
+output:
+  unhcrdown::paged_simple:
+    back_html: true
+paged-footnotes: true
+links-to-footnotes: true
+# uncomment this line to produce HTML and PDF in RStudio:
+#knit: pagedown::chrome_print
+# Below are the Report parameters that you will need to adjust
+params:
+  datafolder: "data-raw"
+  ridl: "ridlproject"
+  data: "dataVBG_V2.xlsx"
+  form: "form_V2.xlsx"
+  datasource: "PULSO PUCP, 2023"
+  publish: "no"
+  republish: "no"
+  visibility: "public"
+---
+
+```{r, include=FALSE}
+#Limpieza de Datos
+```
+
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, 
+                      message = FALSE, 
+                      warning = FALSE,
+                      collapse = FALSE,
+                      comment = "#>",
+                      # fig.width = 5.5, fig.height = 4,
+                      fig.retina = 2, 
+                      fig.width = 11,
+                      fig.asp = 0.618,
+                      fig.align = "center",
+                      dev = "ragg_png",
+                      out.width = "90%")
+options(scipen = 999) # turn-off scientific notation like 1e+48
+set.seed(1)
+extrafont::loadfonts(quiet=TRUE)
+library("ggplot2")
+library("unhcrthemes")
+ggplot2::theme_set( unhcrthemes::theme_unhcr(font_size = 22))
+
+
+library("kobocruncher")
+```
+
+
+```{r getdata}
+datapath <- here::here(params$datafolder, params$data)
+xlsformpath <- here::here(params$datafolder, params$form) 
+
+datalist <- kobo_data(datapath = datapath )
+dico <- kobo_dico(xlsformpath = xlsformpath)
+questions <- as.data.frame(dico[1])
+```
+
+
+## Detalles del Entrevistado y del Hogar
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one(datalist = datalist, dico = dico, "group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_0_4_years", datasource = params$datasource)
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_5_17_years", datasource = params$datasource)
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_18_59_years", datasource = params$datasource)
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_60_yrs_male", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_0_4_years", datasource = params$datasource)
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_5_17_years", datasource = params$datasource)
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_18_59_years", datasource = params$datasource)
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_60_yrs", datasource = params$datasource)
+
+```
+
+## Necesidades de Protección
+
+```{r}
+plot_select_multiple(datalist = datalist, dico = dico, "NEED_PROTEC.sneeds", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.sneeds","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.sneeds","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "NEED_PROTEC.discapacidad", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "NEED_PROTEC.needsM", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "NEED_PROTEC.needsM","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "NEED_PROTEC.needsM","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism1", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism1","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism1","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism2", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism2","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "NEED_PROTEC.CopingMechanism2","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+```
+
+## Personalización de la atención y adaptación a necesidades
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "SVBG_ATENCION.servicio_personalizado", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.servicio_personalizado","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.servicio_personalizado","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "SVBG_ATENCION.why_not_personalizada", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SVBG_ATENCION.confidencialidad", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.confidencialidad","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.confidencialidad","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_necesidades", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_necesidades","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_necesidades","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "SVBG_ATENCION.why_not_atencion_necesidades", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_horarios", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_horarios","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_horarios","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "SVBG_ATENCION.why_not_horarios", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SVBG_ATENCION.personal_capacitado", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.personal_capacitado","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.personal_capacitado","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "SVBG_ATENCION.why_not_capacitado", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_psico", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_psico","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SVBG_ATENCION.atencion_psico","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+```
+
+## Seguridad y Confianza
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "SEGURIDAD.comportamiento", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.comportamiento","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.comportamiento","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "SEGURIDAD.why_not_comportamiento", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SEGURIDAD.seguridad_atencion", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.seguridad_atencion","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.seguridad_atencion","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "SEGURIDAD.why_not_seguridad", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SEGURIDAD.instalaciones", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.instalaciones","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.instalaciones","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "SEGURIDAD.why_not_instalaciones", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "SEGURIDAD.afiches_banners", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.afiches_banners","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.afiches_banners","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+```
+
+## Mecanismos de Retroalimentación y Quejas
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "SEGURIDAD.afiches_banners","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_01", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_01","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_01","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_02", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_02","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_02","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_other", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "RETROALIMENTACION.quejas_mejora", datasource = params$datasource)
+```
+
+## Medios de Información
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "INFORMATION.communication", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "INFORMATION.communication","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one_cross(datalist = datalist, dico = dico, "INFORMATION.communication","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "INFORMATION.mediatopic", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.mediatopic","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.mediatopic","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "INFORMATION.mediatopicother", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "INFORMATION.media", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.media","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.media","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "INFORMATION.socialnet", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.socialnet","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_multiple_cross(datalist = datalist, dico = dico, "INFORMATION.socialnet","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+plot_text(datalist = datalist, dico = dico, "INFORMATION.socialnet_other", datasource = params$datasource)
+
+
+```
+
+```{r}
+## Time to archive your work once done!!
+## namethisfile = basename(rstudioapi::getSourceEditorContext()$path)  
+## if( params$publish == "yes"){
+##  kobo_ridl(ridl = params$datafolder,
+##                      datafolder = params$datafolder,
+##                      form = params$dataform,
+##                      name = namethisfile,
+##                      republish = params$republish,
+##                      visibility =  params$visibility,
+##                      stage = "dissemination_story") }
+```
