@@ -1,0 +1,508 @@
+---
+title: "Informe CBI"
+subtitle: "Call to Action & Data Stories"
+date: "`r format(Sys.Date(),  '%d %B %Y')`"
+author:
+  - name: PULSO PUCP
+    affiliation:
+    email: pulsopucp@pucp.edu.pe
+output:
+  unhcrdown::paged_simple:
+    back_html: true
+paged-footnotes: true
+links-to-footnotes: true
+# uncomment this line to produce HTML and PDF in RStudio:
+#knit: pagedown::chrome_print
+# Below are the Report parameters that you will need to adjust
+params:
+  datafolder: "data-raw"
+  ridl: "ridlproject"
+  data: "dataCBI_V3.xlsx"
+  form: "form_V3.xlsx"
+  datasource: "PULSO PUCP, 2023"
+  publish: "no"
+  republish: "no"
+  visibility: "public"
+---
+
+```{r, include=FALSE}
+#Limpieza de Datos
+```
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      message = FALSE, 
+                      warning = FALSE,
+                      collapse = FALSE,
+                      comment = "#>",
+                      # fig.width = 5.5, fig.height = 4,
+                      fig.retina = 2, 
+                      fig.width = 11,
+                      fig.asp = 0.618,
+                      fig.align = "center",
+                      dev = "ragg_png",
+                      out.width = "90%")
+options(scipen = 999) # turn-off scientific notation like 1e+48
+set.seed(1)
+extrafont::loadfonts(quiet=TRUE)
+library("ggplot2")
+library("unhcrthemes")
+ggplot2::theme_set( unhcrthemes::theme_unhcr(font_size = 22))
+
+
+library("kobocruncher")
+
+```
+
+```{r getdata}
+datapath <- here::here(params$datafolder, params$data)
+xlsformpath <- here::here(params$datafolder, params$form) 
+
+datalist <- kobo_data(datapath = datapath )
+dico <- kobo_dico(xlsformpath = xlsformpath)
+questions <- as.data.frame(dico[1])
+```
+
+## Datos Generales
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_Interview.type_assist_peru", datasource = params$datasource)
+
+
+plot_select_one(datalist = datalist, dico = dico, "group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+plot_select_one(datalist = datalist, dico = dico, "group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "TOTAL", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_0_4_years", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_5_17_years", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_18_59_years", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Male.MALES_60_yrs_male", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_0_4_years", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_5_17_years", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_18_59_years", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.group_Female.FEM_60_yrs", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Demographic.Number_Repro_females", datasource = params$datasource)
+```
+
+## Recepción y gasto de la asistencia en efectivo
+
+```{r}
+plot_integer(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.unhcr_received", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.amount_expecting", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.amount_expecting","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.amount_expecting","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.transfer_mech", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.transfer_mech","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.transfer_mech","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.day_expecting", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.day_expecting","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.day_expecting","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.need_help_recieve", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.need_help_recieve","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_subgrp_Recievecash.need_help_recieve","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.Why_need_help", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.who_gave_help", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.pay_for_help", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.Where_spend_cash", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.Where_spend_cash","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.Where_spend_cash","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.Where_spend_cash_other", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.time_reamarket", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.time_reamarket","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.time_reamarket","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.travel_cost", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.travel_cost","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.group_ly7zo75.travel_cost","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.Who_dehow_spent", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.Who_dehow_spent","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.Who_dehow_spent","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Receiving.Disagreement", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.Disagreement","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Receiving.Disagreement","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "group_Receiving.other_sources_income", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_Receiving.other_sources_income","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_Receiving.other_sources_income","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+```
+
+## Riesgos y problemas
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Going_withor_get_money", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Going_withor_get_money","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Going_withor_get_money","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Keeping_money_home", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Keeping_money_home","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Keeping_money_home","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Going_spenmoney", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Going_spenmoney","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Going_spenmoney","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Any_other_risk", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Any_other_risk","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_ze51s78.Any_other_risk","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_risks_problems.Why_no_feel_safe", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.registereperson_not", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.registereperson_not","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.registereperson_not","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Wrong_forgotten_pincode", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Wrong_forgotten_pincode","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Wrong_forgotten_pincode","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Poor_service_withdrawing", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Poor_service_withdrawing","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Poor_service_withdrawing","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Poor_service_type", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Trarefuse_serve", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Trarefuse_serve","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Trarefuse_serve","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Pay_money_favour", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Pay_money_favour","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Pay_money_favour","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Who_give_money_favours", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Who_give_money_favours","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_risks_problems.group_pl3rf92.Who_give_money_favours","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.anyother_problems", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_risks_problems.What_problems", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_risks_problems.overcome_problem", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.overcome_problem","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_risks_problems.overcome_problem","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_risks_problems.overcome_problem_explain")
+```
+
+## Mercado y precios
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_Markets.items_available", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Markets.items_available","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Markets.items_available","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Markets.items_not_available", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Markets.items_quality", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Markets.items_quality","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Markets.items_quality","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Markets.items_not_quality", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Markets.price_increase", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Markets.price_increase","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Markets.price_increase","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Markets.items_price_increase", datasource = params$datasource)
+```
+
+## Gastos
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.cash_spent_already", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_expenditure.cash_spent_already","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_expenditure.cash_spent_already","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "group_expenditure.spent_cash_on", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_expenditure.spent_cash_on","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_expenditure.spent_cash_on","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_expenditure.Other_Specify", datasource = params$datasource)
+```
+
+## Artículos y Servicios en los que se ha gastado más dinero
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.top5_items.spent_1st", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.top5_items.spent_2nd", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.top5_items.spent_3rd", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.top5_items.spent_4th", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.top5_items.spent_5th", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_expenditure.top5_items.gastos_Mdv", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_expenditure.top5_items.gastos_Edu", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.save_money", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_expenditure.save_money","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_expenditure.save_money","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_expenditure.save_money_account", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_expenditure.save_money_account","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_expenditure.save_money_account","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+```
+
+## Objetivos específicos: ¿A qué cambios está contribuyendo la asistencia en efectivo en los hogares de las personas de interés?
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Improved_livincondition", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Improved_livincondition","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Improved_livincondition","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Reduced_stress", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Reduced_stress","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Reduced_stress","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Reduced_financial_burden", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Reduced_financial_burden","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.group_jo0hr30.Reduced_financial_burden","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.meet_basic_needs", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.meet_basic_needs","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.meet_basic_needs","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "group_Medium_outcomes.items_not_afford", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Medium_outcomes.unmet_Other_specify", datasource = params$datasource)
+```
+
+## Necesidades del hogar en la última semana
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Stop_child_attendinschoo", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Stop_child_attendinschoo","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Stop_child_attendinschoo","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Sell_livelihood_assets", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Sell_livelihood_assets","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Sell_livelihood_assets","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Ask_money_from_stranger", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Ask_money_from_stranger","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Ask_money_from_stranger","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Move_poorer_shelter", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Move_poorer_shelter","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Move_poorer_shelter","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Send_under16_work", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Send_under16_work","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Send_under16_work","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Send_work_far_away", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Send_work_far_away","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Send_work_far_away","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Enrisky_activities", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Enrisky_activities","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Enrisky_activities","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Skip_rent_debt_repayments", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Skip_rent_debt_repayments","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Skip_rent_debt_repayments","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Take_out_new_loans", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Take_out_new_loans","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Take_out_new_loans","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Reduce_expenditure_HH_item", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Reduce_expenditure_HH_item","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Medium_outcomes.ha7ox10.Reduce_expenditure_HH_item","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+```
+
+## Acciones tomadas para conseguir comida
+
+```{r}
+plot_integer(datalist = datalist, dico = dico, "group_Medium_outcomes.subHHneeds.rely_food_other", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Medium_outcomes.subHHneeds.borrow_food", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Medium_outcomes.subHHneeds.limit_portion_size", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Medium_outcomes.subHHneeds.reduce_adult_consumption", datasource = params$datasource)
+
+plot_integer(datalist = datalist, dico = dico, "group_Medium_outcomes.subHHneeds.reduce_number_meals", datasource = params$datasource)
+```
+
+## Objetivos específicos a largo plazo: ¿Ha ayudado la asistencia en efectivo a enrutar a las personas de interés hacia soluciones sostenibles?
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_longer_outcomes.Have_bank_account", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_longer_outcomes.Have_bank_account","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_longer_outcomes.Have_bank_account","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_longer_outcomes.Have_livelihoods_assets", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_longer_outcomes.Have_livelihoods_assets","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_longer_outcomes.Have_livelihoods_assets","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_longer_outcomes.Have_access_micro_credit", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_longer_outcomes.Have_access_micro_credit","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_longer_outcomes.Have_access_micro_credit","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+```
+
+## Responsabilidad ante las personas afectadas
+
+```{r}
+plot_select_one(datalist = datalist, dico = dico, "group_Accountability.hear_unhcr_cash_assistance", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Accountability.hear_unhcr_cash_assistance","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Accountability.hear_unhcr_cash_assistance","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Accountability.Other_Specify1", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "group_Accountability.info_want_cash_ass", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Accountability.Other_specify2", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Accountability.know_report_complaints", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Accountability.know_report_complaints","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Accountability.know_report_complaints","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_multiple(datalist = datalist, dico = dico, "group_Accountability.how_report_complaints", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_Accountability.how_report_complaints","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_multiple_cross(datalist = datalist, dico = dico, "group_Accountability.how_report_complaints","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Accountability.preference_modality", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Accountability.preference_modality","group_Demographic.group_nv8at35.sex", datasource = params$datasource)
+
+plot_select_one_cross(datalist = datalist, dico = dico, "group_Accountability.preference_modality","group_Demographic.group_nv8at35.age", datasource = params$datasource)
+
+plot_text(datalist = datalist, dico = dico, "group_Accountability.Other_specify4", datasource = params$datasource)
+
+plot_select_one(datalist = datalist, dico = dico, "group_Accountability.echo_segura", datasource = params$datasource)
+```
+
+```{r}
+## Time to archive your work once done!!
+## namethisfile = basename(rstudioapi::getSourceEditorContext()$path )  
+## if( params$publish == "yes"){
+##  kobo_ridl(ridl = params$datafolder,
+##                      datafolder = params$datafolder,
+##                      form = params$dataform,
+##                      name = namethisfile,
+##                      republish = params$republish,
+##                      visibility =  params$visibility,
+##                      stage = "dissemination_story") }
+```
